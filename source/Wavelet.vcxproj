@@ -1,0 +1,304 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{FF99786C-FD10-460B-8FC1-B7194E762C50}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Wavelet</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.18362.0</WindowsTargetPlatformVersion>
+    <ProjectName>Wavelet</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <PreferredToolArchitecture>x86</PreferredToolArchitecture>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <PreferredToolArchitecture>x86</PreferredToolArchitecture>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <TargetName>$(MSBuildProjectName)</TargetName>
+    <TargetExt>.vst3</TargetExt>
+    <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\Wavelet\</OutDir>
+    <IntDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</IntDir>
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetName>$(MSBuildProjectName)</TargetName>
+    <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\Wavelet\</OutDir>
+    <IntDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</IntDir>
+    <TargetExt>.vst3</TargetExt>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <TargetName>$(MSBuildProjectName)</TargetName>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\Wavelet.vst3\</OutDir>
+    <IntDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <TargetName>$(MSBuildProjectName)</TargetName>
+    <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\Wavelet.vst3\</OutDir>
+    <IntDir>$(SolutionDir)\bin\$(Platform)\$(Configuration)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;DEVELOPMENT=1;SMTG_RENAME_ASSERT=1;VSTGUI_LIVE_EDITING=1;_UNICODE;CMAKE_INTDIR="Debug";wavelet_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Urho3D-1.7.1-Build\include\;$(SolutionDir)..\Urho3D-1.7.1-Build\include\Urho3D\ThirdParty;$(SolutionDir)..\VST_SDK\VST3_SDK;$(SolutionDir)..\VST_SDK\VST3_SDK\vstgui4</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <WarningLevel>Level3</WarningLevel>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>base.lib;sdk.lib;pluginterfaces.lib;Urho3D.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;ws2_32.lib;dbghelp.lib;d3dcompiler.lib;d3d9.lib;kernel32.lib;winspool.lib;shell32.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalOptions>%(AdditionalOptions) /EXPORT:GetPluginFactory /EXPORT:InitDll /EXPORT:ExitDll</AdditionalOptions>
+      <AdditionalLibraryDirectories>$(SolutionDir)/../Urho3D-1.7.1-Build/lib/Debug/x64;$(SolutionDir)/../vst3sdk-Build/lib/Debug/x64</AdditionalLibraryDirectories>
+      <SubSystem>Console</SubSystem>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+    <PreLinkEvent>
+      <Command>
+      </Command>
+    </PreLinkEvent>
+    <PostBuildEvent>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy Resources/wavelet.ico "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/wavelet.ico"
+"C:\Program Files\CMake\bin\cmake.exe" -E copy Resources/desktop.ini "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/desktop.ini"
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory Resources/CoreData/ "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/CoreData/"
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory Resources/Data/ "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/Data/"
+attrib +s "$(SolutionDir)/bin/$(Platform)/$(Configuration)/Wavelet/desktop.ini"
+attrib +s "$(SolutionDir)/bin/$(Platform)/$(Configuration)/Wavelet/wavelet.ico"
+attrib +s "$(SolutionDir)/bin/$(Platform)/$(Configuration)/Wavelet"
+
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/" "C:/Program Files/Common Files/VST3/Wavelet/"
+endlocal</Command>
+    </PostBuildEvent>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_WINDOWS;DEVELOPMENT=1;SMTG_RENAME_ASSERT=1;VSTGUI_LIVE_EDITING=1;_UNICODE;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Urho3D-1.7.1-Build\include\;$(SolutionDir)..\Urho3D-1.7.1-Build\include\Urho3D\ThirdParty;$(SolutionDir)..\VST_SDK\VST3_SDK;$(SolutionDir)..\VST_SDK\VST3_SDK\vstgui4</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <WarningLevel>Level3</WarningLevel>
+      <OmitFramePointers />
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <UseFullPaths>false</UseFullPaths>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)/../Urho3D-1.7.1-Build/lib/Debug/x86;$(SolutionDir)/../vst3sdk-Build/lib/Debug/x86;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>base.lib;sdk.lib;pluginterfaces.lib;Urho3D.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;ws2_32.lib;dbghelp.lib;d3dcompiler.lib;d3d9.lib;kernel32.lib;winspool.lib;shell32.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+    </Link>
+    <PostBuildEvent>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy Resources/wavelet.ico "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/wavelet.ico"
+"C:\Program Files\CMake\bin\cmake.exe" -E copy Resources/desktop.ini "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/desktop.ini"
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory Resources/CoreData/ "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/CoreData/"
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory Resources/Data/ "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/Data/"
+attrib +s "$(SolutionDir)/bin/$(Platform)/$(Configuration)/Wavelet/desktop.ini"
+attrib +s "$(SolutionDir)/bin/$(Platform)/$(Configuration)/Wavelet/wavelet.ico"
+attrib +s "$(SolutionDir)/bin/$(Platform)/$(Configuration)/Wavelet"
+
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/" "C:/Program Files/Common Files/VST3/Wavelet/"
+endlocal</Command>
+    </PostBuildEvent>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;WIN32;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Urho3D-1.7.1-Build\include\;$(SolutionDir)..\Urho3D-1.7.1-Build\include\Urho3D\ThirdParty;$(SolutionDir)..\VST_SDK\VST3_SDK;$(SolutionDir)..\VST_SDK\VST3_SDK\vstgui4</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <OmitFramePointers>true</OmitFramePointers>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)/../Urho3D-1.7.1-Build/lib/Release/x86;$(SolutionDir)/../vst3sdk-Build/lib/Release/x86</AdditionalLibraryDirectories>
+      <AdditionalDependencies>base.lib;sdk.lib;vstgui_support.lib;pluginterfaces.lib;vstgui_uidescription.lib;vstgui.lib;Urho3D.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PostBuildEvent>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy Resources/wavelet.ico "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/wavelet.ico"
+"C:\Program Files\CMake\bin\cmake.exe" -E copy Resources/desktop.ini "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/desktop.ini"
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory Resources/CoreData/ "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/CoreData/"
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory Resources/Data/ "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/Data/"
+attrib +s "$(SolutionDir)/bin/$(Platform)/$(Configuration)/Wavelet/desktop.ini"
+attrib +s "$(SolutionDir)/bin/$(Platform)/$(Configuration)/Wavelet/wavelet.ico"
+attrib +s "$(SolutionDir)/bin/$(Platform)/$(Configuration)/Wavelet"
+
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/" "C:/Program Files/Common Files/VST3/Wavelet/"
+endlocal</Command>
+    </PostBuildEvent>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Urho3D-1.7.1-Build\include\;$(SolutionDir)..\Urho3D-1.7.1-Build\include\Urho3D\ThirdParty;$(SolutionDir)..\VST_SDK\VST3_SDK;$(SolutionDir)..\VST_SDK\VST3_SDK\vstgui4</AdditionalIncludeDirectories>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalDependencies>base.lib;sdk.lib;vstgui_support.lib;pluginterfaces.lib;vstgui_uidescription.lib;vstgui.lib;Urho3D.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/../Urho3D-1.7.1-Build/lib/Release/x64;$(SolutionDir)/../vst3sdk-Build/lib/Release/x64</AdditionalLibraryDirectories>
+      <ImageHasSafeExceptionHandlers>false</ImageHasSafeExceptionHandlers>
+    </Link>
+    <PostBuildEvent>
+      <Command>setlocal
+"C:\Program Files\CMake\bin\cmake.exe" -E copy Resources/wavelet.ico "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/wavelet.ico"
+"C:\Program Files\CMake\bin\cmake.exe" -E copy Resources/desktop.ini "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/desktop.ini"
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory Resources/CoreData/ "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/CoreData/"
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory Resources/Data/ "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/Data/"
+attrib +s "$(SolutionDir)/bin/$(Platform)/$(Configuration)/Wavelet/desktop.ini"
+attrib +s "$(SolutionDir)/bin/$(Platform)/$(Configuration)/Wavelet/wavelet.ico"
+attrib +s "$(SolutionDir)/bin/$(Platform)/$(Configuration)/Wavelet"
+
+"C:\Program Files\CMake\bin\cmake.exe" -E copy_directory "$(SolutionDir)bin/$(Platform)/$(Configuration)/Wavelet/" "C:/Program Files/Common Files/VST3/Wavelet/"
+endlocal</Command>
+    </PostBuildEvent>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="Application.cpp" />
+    <ClCompile Include="frequencyParameter.cpp" />
+    <ClCompile Include="Processor.cpp" />
+    <ClCompile Include="PluginFactory.cpp" />
+    <ClCompile Include="View.cpp" />
+    <ClCompile Include="Wavelet.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Application.h" />
+    <ClInclude Include="Constants.h" />
+    <ClInclude Include="Controller.h" />
+    <ClInclude Include="frequencyParameter.h" />
+    <ClInclude Include="Processor.h" />
+    <ClInclude Include="View.h" />
+    <ClInclude Include="Wavelet.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\desktop.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\wavelet.ico" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
