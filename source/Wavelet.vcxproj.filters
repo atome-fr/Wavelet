@@ -66,7 +66,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\wavelet.ico">
+    <Image Include="Resources\logo.ico">
       <Filter>Fichiers de ressources</Filter>
     </Image>
   </ItemGroup>

@@ -1,8 +1,6 @@
 #include "View.h"
-#include "Wavelet.h"
 
 using namespace Steinberg;
-//using namespace Urho3D;
 
 namespace io::atome::wavelet {
 	View::View() :

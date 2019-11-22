@@ -2,6 +2,9 @@
 
 #include "pluginterfaces/base/ustring.h"
 
+using namespace Steinberg;
+using namespace Steinberg::Vst;
+
 namespace io::atome::wavelet {
 	FrequencyParameter::FrequencyParameter(int32 flags, int32 id)
 	{

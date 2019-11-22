@@ -18,18 +18,18 @@ using namespace Steinberg;
 using namespace Steinberg::Vst;
 
 namespace io::atome::wavelet {
-	FUnknown* Processor::createInstance(void* context)
+	FUnknown* WaveletProcessor::createInstance(void* context)
 	{
-		return (IAudioProcessor*) new Processor;
+		return (IAudioProcessor*) new WaveletProcessor;
 	}
 
 	//FIXME: Get sample rate from DAW.
-	Processor::Processor() : sampleRate_(22050), frequency_(440.f)
+	WaveletProcessor::WaveletProcessor() : sampleRate_(22050), frequency_(440.f)
 	{
 		setControllerClass(io::atome::wavelet::ControllerUID);
 	}
 
-	tresult PLUGIN_API Processor::initialize(FUnknown* context)
+	tresult PLUGIN_API WaveletProcessor::initialize(FUnknown* context)
 	{
 		tresult result = AudioEffect::initialize(context);
 		if (result == kResultTrue)
@@ -41,7 +41,7 @@ namespace io::atome::wavelet {
 		return result;
 	}
 
-	tresult PLUGIN_API Processor::setBusArrangements(SpeakerArrangement* inputs, int32 numIns, SpeakerArrangement* outputs, int32 numOuts)
+	tresult PLUGIN_API WaveletProcessor::setBusArrangements(SpeakerArrangement* inputs, int32 numIns, SpeakerArrangement* outputs, int32 numOuts)
 	{
 		// We only support one stereo output stereo bus.
 		if (numIns == 0 && numOuts == 1 && outputs[0] == SpeakerArr::kStereo)
@@ -51,7 +51,7 @@ namespace io::atome::wavelet {
 		return kResultFalse;
 	}
 
-	tresult PLUGIN_API Processor::canProcessSampleSize(int32 symbolicSampleSize)
+	tresult PLUGIN_API WaveletProcessor::canProcessSampleSize(int32 symbolicSampleSize)
 	{
 		if (symbolicSampleSize == kSample32 || symbolicSampleSize == kSample64)
 		{
@@ -60,17 +60,17 @@ namespace io::atome::wavelet {
 		return kResultFalse;
 	}
 
-	tresult PLUGIN_API Processor::setState(IBStream* state)
+	tresult PLUGIN_API WaveletProcessor::setState(IBStream* state)
 	{
 		return kResultOk;
 	}
 
-	tresult PLUGIN_API Processor::getState(IBStream* state)
+	tresult PLUGIN_API WaveletProcessor::getState(IBStream* state)
 	{
 		return kResultOk;
 	}
 
-	tresult PLUGIN_API Processor::process(ProcessData& data)
+	tresult PLUGIN_API WaveletProcessor::process(ProcessData& data)
 	{
 		tresult result = kResultOk;
 
@@ -86,7 +86,7 @@ namespace io::atome::wavelet {
 		return result;
 	}
 
-	template<typename SampleType> tresult Processor::processGeneric(AudioBusBuffers& output, int32 numSamples, IParameterChanges* inputParameterChanges)
+	template<typename SampleType> tresult WaveletProcessor::processGeneric(AudioBusBuffers& output, int32 numSamples, IParameterChanges* inputParameterChanges)
 	{
 		if (inputParameterChanges)
 		{
@@ -130,12 +130,12 @@ namespace io::atome::wavelet {
 		return kResultOk;
 	}
 
-	template<> Sample32** Processor::getBuffer(AudioBusBuffers& buffer)
+	template<> Sample32** WaveletProcessor::getBuffer(AudioBusBuffers& buffer)
 	{
 		return buffer.channelBuffers32;
 	}
 
-	template<> Sample64** Processor::getBuffer(AudioBusBuffers& buffer)
+	template<> Sample64** WaveletProcessor::getBuffer(AudioBusBuffers& buffer)
 	{
 		return buffer.channelBuffers64;
 	}

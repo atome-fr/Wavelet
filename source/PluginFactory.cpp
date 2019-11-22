@@ -21,7 +21,7 @@ BEGIN_FACTORY_DEF(COMPANY_NAME,
 		Vst::PlugType::kFxInstrument,
 		VERSION,
 		kVstVersionString,
-		Processor::createInstance)
+		WaveletProcessor::createInstance)
 
 	DEF_CLASS2(INLINE_UID_FROM_FUID(ControllerUID),
 		PClassInfo::kManyInstances,
@@ -31,5 +31,5 @@ BEGIN_FACTORY_DEF(COMPANY_NAME,
 		"",
 		VERSION,
 		kVstVersionString,
-		Controller::createInstance)
+		WaveletController::createInstance)
 END_FACTORY

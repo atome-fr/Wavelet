@@ -4,31 +4,29 @@
 #include <Urho3D/UI/Sprite.h>
 #include <Urho3D/Core/Thread.h>
 
-using namespace Urho3D;
-
 namespace io::atome::wavelet {
-	class Wavelet : public Object
+	class Wavelet : public Urho3D::Object
 	{
-		URHO3D_OBJECT(Wavelet, Object);
+		URHO3D_OBJECT(Wavelet, Urho3D::Object);
 
 	public:
-		Wavelet(SharedPtr<Context> context, void* parent, int width, int height);
+		Wavelet(Urho3D::SharedPtr<Urho3D::Context> context, void* parent, int width, int height);
 		~Wavelet();
 
 		virtual void RunFrame();
 
 	private:
-		void HandleFrequency(StringHash eventType, VariantMap& eventData);
+		void HandleFrequency(Urho3D::StringHash eventType, Urho3D::VariantMap& eventData);
 		void CreateLogo();
 
-		SharedPtr<Engine> engine_;
+		Urho3D::SharedPtr<Urho3D::Engine> engine_;
 		int width_;
 		int height_;
 
-		SharedPtr<Sprite> logoSprite_;
+		Urho3D::SharedPtr<Urho3D::Sprite> logoSprite_;
 	};
 
-	class WaveletThread : public Thread
+	class WaveletThread : public Urho3D::Thread
 	{
 	public:
 		WaveletThread(void* parent, int width, int height);
@@ -38,8 +36,8 @@ namespace io::atome::wavelet {
 		void ThreadFunction();
 
 		void* parent_;
-		SharedPtr<Context> context_;
-		SharedPtr<Wavelet> wavelet_;
+		Urho3D::SharedPtr<Urho3D::Context> context_;
+		Urho3D::SharedPtr<Wavelet> wavelet_;
 
 		int width_;
 		int height_;

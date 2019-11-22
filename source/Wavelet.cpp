@@ -24,6 +24,7 @@
 
 
 using namespace std;
+using namespace Urho3D;
 
 extern "C" LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 

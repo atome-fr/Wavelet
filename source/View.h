@@ -6,35 +6,33 @@
 
 #include "Wavelet.h"
 
-using namespace Steinberg;
-
 namespace io::atome::wavelet {
-	class View : public IPlugView
+	class View : public Steinberg::IPlugView
 	{
 
 	public:
 		View();
 		~View();
 
-		tresult PLUGIN_API queryInterface(const TUID _iid, void** obj) SMTG_OVERRIDE;
-		virtual uint32 PLUGIN_API addRef() SMTG_OVERRIDE;
-		virtual uint32 PLUGIN_API release() SMTG_OVERRIDE;
-		virtual tresult PLUGIN_API isPlatformTypeSupported(FIDString type) SMTG_OVERRIDE;
-		virtual tresult PLUGIN_API attached(void* parent, FIDString type) SMTG_OVERRIDE;
-		virtual tresult PLUGIN_API removed() SMTG_OVERRIDE;
-		virtual tresult PLUGIN_API onWheel(float distance) SMTG_OVERRIDE;
-		virtual tresult PLUGIN_API onKeyDown(char16 key, int16 keyCode, int16 modifiers) SMTG_OVERRIDE;
-		virtual tresult PLUGIN_API onKeyUp(char16 key, int16 keyCode, int16 modifiers) SMTG_OVERRIDE;
-		virtual tresult PLUGIN_API getSize(ViewRect* size) SMTG_OVERRIDE;
-		virtual tresult PLUGIN_API onSize(ViewRect* newSize) SMTG_OVERRIDE;
-		virtual tresult PLUGIN_API onFocus(TBool state) SMTG_OVERRIDE;
-		virtual tresult PLUGIN_API setFrame(IPlugFrame* frame) SMTG_OVERRIDE;
-		virtual tresult PLUGIN_API canResize() SMTG_OVERRIDE;
-		virtual tresult PLUGIN_API checkSizeConstraint(ViewRect* rect) SMTG_OVERRIDE;
+		Steinberg::tresult PLUGIN_API queryInterface(const Steinberg::TUID _iid, void** obj) SMTG_OVERRIDE;
+		virtual Steinberg::uint32 PLUGIN_API addRef() SMTG_OVERRIDE;
+		virtual Steinberg::uint32 PLUGIN_API release() SMTG_OVERRIDE;
+		virtual Steinberg::tresult PLUGIN_API isPlatformTypeSupported(Steinberg::FIDString type) SMTG_OVERRIDE;
+		virtual Steinberg::tresult PLUGIN_API attached(void* parent, Steinberg::FIDString type) SMTG_OVERRIDE;
+		virtual Steinberg::tresult PLUGIN_API removed() SMTG_OVERRIDE;
+		virtual Steinberg::tresult PLUGIN_API onWheel(float distance) SMTG_OVERRIDE;
+		virtual Steinberg::tresult PLUGIN_API onKeyDown(Steinberg::char16 key, Steinberg::int16 keyCode, Steinberg::int16 modifiers) SMTG_OVERRIDE;
+		virtual Steinberg::tresult PLUGIN_API onKeyUp(Steinberg::char16 key, Steinberg::int16 keyCode, Steinberg::int16 modifiers) SMTG_OVERRIDE;
+		virtual Steinberg::tresult PLUGIN_API getSize(Steinberg::ViewRect* size) SMTG_OVERRIDE;
+		virtual Steinberg::tresult PLUGIN_API onSize(Steinberg::ViewRect* newSize) SMTG_OVERRIDE;
+		virtual Steinberg::tresult PLUGIN_API onFocus(Steinberg::TBool state) SMTG_OVERRIDE;
+		virtual Steinberg::tresult PLUGIN_API setFrame(Steinberg::IPlugFrame* frame) SMTG_OVERRIDE;
+		virtual Steinberg::tresult PLUGIN_API canResize() SMTG_OVERRIDE;
+		virtual Steinberg::tresult PLUGIN_API checkSizeConstraint(Steinberg::ViewRect* rect) SMTG_OVERRIDE;
 
 	private:
-		uint32 nbRef_;
-		IPlugFrame* frame_;
+		Steinberg::uint32 nbRef_;
+		Steinberg::IPlugFrame* frame_;
 		WaveletThread* waveletThread_;
 
 		int width_;
