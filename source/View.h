@@ -11,7 +11,7 @@ namespace io::atome::wavelet {
 	{
 
 	public:
-		View();
+		View(FrequencyParameter* frequencyParameter);
 		~View();
 
 		Steinberg::tresult PLUGIN_API queryInterface(const Steinberg::TUID _iid, void** obj) SMTG_OVERRIDE;
@@ -34,9 +34,9 @@ namespace io::atome::wavelet {
 		Steinberg::uint32 nbRef_;
 		Steinberg::IPlugFrame* frame_;
 		WaveletThread* waveletThread_;
+		FrequencyParameter* frequencyParameter_;
 
 		int width_;
 		int height_;
 	};
 }
-

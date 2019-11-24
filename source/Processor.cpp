@@ -93,17 +93,22 @@ namespace io::atome::wavelet {
 			int32 parametersCount = inputParameterChanges->getParameterCount();
 			for (int32 index = 0; index < parametersCount; index++)
 			{
-				IParamValueQueue* paramQueue = inputParameterChanges->getParameterData(index);
-				if (paramQueue)
+				IParamValueQueue* paramValueQueue = inputParameterChanges->getParameterData(index);
+				if (paramValueQueue)
 				{
-					ParamValue value;
+					MessageBox(NULL, L"Parameter value changed", L"New value", MB_OK);
+					ParamValue paramValue;
 					int32 sampleOffset;
-					int32 pointsCount = paramQueue->getPointCount();
-					switch (paramQueue->getParameterId())
+					int32 pointsCount = paramValueQueue->getPointCount();
+					switch (paramValueQueue->getParameterId())
 					{
 					case kFrequencyId:
-						if (paramQueue->getPoint(pointsCount - 1, sampleOffset, value) == kResultTrue) {
-							frequency_ = value * 1000;
+						if (paramValueQueue->getPoint(pointsCount - 1, sampleOffset, paramValue) == kResultTrue) {
+							frequency_ = paramValue * 1000;
+
+							wchar_t buffer[256] = {};
+							swprintf(buffer, L"%f", paramValue);
+							MessageBox(NULL, buffer, L"New value", MB_OK);
 						}
 						break;
 					}

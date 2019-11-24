@@ -5,6 +5,8 @@
 #include "pluginterfaces/vst/vsttypes.h"
 #include "base/source/fobject.h"
 
+#include "View.h"
+
 namespace io::atome::wavelet {
 	class WaveletController : public Steinberg::Vst::ComponentBase, public Steinberg::Vst::IEditController
 	{
@@ -37,9 +39,13 @@ namespace io::atome::wavelet {
 		Steinberg::tresult PLUGIN_API setComponentHandler(Steinberg::Vst::IComponentHandler* handler) SMTG_OVERRIDE;
 		Steinberg::IPlugView* PLUGIN_API createView(Steinberg::FIDString name) SMTG_OVERRIDE;
 
+		void PLUGIN_API update(Steinberg::FUnknown* changedUnknown, Steinberg::int32 message) SMTG_OVERRIDE;
+
 		private:
 			Steinberg::uint32 nbRef_;
-			Steinberg::IPlugView* view_;
+			View* view_;
+			FrequencyParameter* frequencyParameter_;
+			Steinberg::Vst::IComponentHandler* componentHandler_;
 
 			Steinberg::Vst::ParameterContainer parameters_;
 	};

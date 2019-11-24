@@ -5,8 +5,6 @@ VisualStudioVersion = 16.0.29324.140
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Wavelet", "source\Wavelet.vcxproj", "{FF99786C-FD10-460B-8FC1-B7194E762C50}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mda-vst3", "..\mda-vst3\mda-vst3.vcxproj", "{ABA86820-F8D6-3D41-A01C-A2FA8DB9A52C}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -23,12 +21,6 @@ Global
 		{FF99786C-FD10-460B-8FC1-B7194E762C50}.Release|x64.Build.0 = Release|x64
 		{FF99786C-FD10-460B-8FC1-B7194E762C50}.Release|x86.ActiveCfg = Release|Win32
 		{FF99786C-FD10-460B-8FC1-B7194E762C50}.Release|x86.Build.0 = Release|Win32
-		{ABA86820-F8D6-3D41-A01C-A2FA8DB9A52C}.Debug|x64.ActiveCfg = Debug|x64
-		{ABA86820-F8D6-3D41-A01C-A2FA8DB9A52C}.Debug|x64.Build.0 = Debug|x64
-		{ABA86820-F8D6-3D41-A01C-A2FA8DB9A52C}.Debug|x86.ActiveCfg = Debug|x64
-		{ABA86820-F8D6-3D41-A01C-A2FA8DB9A52C}.Release|x64.ActiveCfg = Release|x64
-		{ABA86820-F8D6-3D41-A01C-A2FA8DB9A52C}.Release|x64.Build.0 = Release|x64
-		{ABA86820-F8D6-3D41-A01C-A2FA8DB9A52C}.Release|x86.ActiveCfg = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

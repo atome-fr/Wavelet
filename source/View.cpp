@@ -1,14 +1,16 @@
 #include "View.h"
 
+
 using namespace Steinberg;
 
 namespace io::atome::wavelet {
-	View::View() :
+	View::View(FrequencyParameter* frequencyParameter) :
 		nbRef_(0),
 		frame_(nullptr),
 		waveletThread_(nullptr),
 		width_(800),
-		height_(600)
+		height_(600),
+		frequencyParameter_(frequencyParameter)
 	{
 	}
 
@@ -55,7 +57,7 @@ namespace io::atome::wavelet {
 
 	tresult PLUGIN_API View::attached(void* parent, FIDString type)
 	{
-		waveletThread_ = new WaveletThread(parent, width_, height_);
+		waveletThread_ = new WaveletThread(parent, width_, height_, frequencyParameter_);
 		waveletThread_->Run();
 
 		return kResultTrue;

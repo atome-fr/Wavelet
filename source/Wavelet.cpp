@@ -29,12 +29,13 @@ using namespace Urho3D;
 extern "C" LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace io::atome::wavelet {
-	Wavelet::Wavelet(SharedPtr<Context> context, void* parent, int width, int height) :
+	Wavelet::Wavelet(SharedPtr<Context> context, void* parent, int width, int height, FrequencyParameter* frequencyParameter) :
 		Object(context),
 		engine_(nullptr),
 		logoSprite_(nullptr),
 		width_(width),
-		height_(height)
+		height_(height),
+		frequencyParameter_(frequencyParameter)
 	{
 		Urho3D::VariantMap engineParameters_;
 
@@ -77,7 +78,7 @@ namespace io::atome::wavelet {
 		button->SetStyleAuto();
 		button->SetFixedWidth(width);
 		button->SetFixedHeight(20);
-		SubscribeToEvent(button, E_RELEASED, URHO3D_HANDLER(Wavelet, HandleFrequency));
+		SubscribeToEvent(button, E_RELEASED, URHO3D_HANDLER(Wavelet, HandleButton));
 
 		Text* buttonText = button->CreateChild<Text>();
 		buttonText->SetFont(font, 12);
@@ -89,9 +90,18 @@ namespace io::atome::wavelet {
 		slider->SetStyleAuto();
 		slider->SetFixedWidth(width);
 		slider->SetFixedHeight(20);
-		slider->SetRange(100);
-		slider->SetValue(50);
+		slider->SetRange(1.0f);
+		Steinberg::Vst::ParamValue frequencyValue = frequencyParameter_->getNormalized();
+		slider->SetValue(frequencyValue);
 		SubscribeToEvent(slider, E_SLIDERCHANGED, URHO3D_HANDLER(Wavelet, HandleFrequency));
+
+		sliderValue_ = ui->GetRoot()->CreateChild<Text>();
+		sliderValue_->SetPosition(0, 50);
+		sliderValue_->SetStyleAuto();
+		sliderValue_->SetFixedWidth(width);
+		sliderValue_->SetFixedHeight(20);
+		sliderValue_->SetFont(font, 12);
+		updateSliderText();
 	}
 
 	Wavelet::~Wavelet()
@@ -113,11 +123,25 @@ namespace io::atome::wavelet {
 		engine_->RunFrame();
 	}
 
+	void Wavelet::HandleButton(StringHash eventType, VariantMap& eventData)
+	{
+		CreateLogo();
+	}
+
 	void Wavelet::HandleFrequency(StringHash eventType, VariantMap& eventData)
 	{
 		float newFrequency = eventData[SliderChanged::P_VALUE].GetFloat();
+		frequencyParameter_->setNormalized(newFrequency);
 
-		CreateLogo();
+		updateSliderText();
+	}
+
+	void Wavelet::updateSliderText()
+	{
+		wchar_t buffer[256] = {};
+		Steinberg::Vst::ParamValue frequencyValue = frequencyParameter_->getNormalized();
+		swprintf(buffer, L"id: %i; value: %f", frequencyParameter_->getInfo().id, frequencyValue);
+		sliderValue_->SetText(buffer);
 	}
 
 	void Wavelet::CreateLogo()
@@ -138,17 +162,10 @@ namespace io::atome::wavelet {
 		logoSprite_->SetVisible(true);
 	}
 
-	WaveletThread::WaveletThread(void* parent, int width, int height) :
-		parent_(nullptr),
-		context_(nullptr),
-		wavelet_(nullptr),
-		width_(width),
-		height_(height)
+	WaveletThread::WaveletThread(void* parent, int width, int height, FrequencyParameter* frequencyParameter) :
+		context_(new Urho3D::Context()),
+		wavelet_(new Wavelet(context_, parent, width, height, frequencyParameter))
 	{
-		parent_ = parent;
-		context_ = new Urho3D::Context();
-
-		wavelet_ = new Wavelet(context_, parent_, width_, height_);
 	}
 
 	WaveletThread::~WaveletThread()
@@ -158,9 +175,6 @@ namespace io::atome::wavelet {
 		}
 		if (context_ != nullptr) {
 			context_ = nullptr;
-		}
-		if (parent_ != nullptr) {
-			parent_ = nullptr;
 		}
 	}
 
