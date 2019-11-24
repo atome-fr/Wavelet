@@ -1,6 +1,5 @@
-#include "Controller.h"
+#include "WaveletController.h"
 #include "Application.h"
-#include "View.h"
 #include "Constants.h"
 
 #include "pluginterfaces/base/ustring.h"
@@ -17,7 +16,7 @@ namespace io::atome::wavelet {
 		componentHandler_(nullptr),
 		frequencyParameter_(new FrequencyParameter(ParameterInfo::kCanAutomate, kFrequencyId))
 	{
-		frequencyParameter_->addDependent(this);
+		frequencyParameter_->setListener(this);
 	}
 
 	WaveletController::~WaveletController() {
@@ -81,7 +80,7 @@ namespace io::atome::wavelet {
 
 	int32 PLUGIN_API WaveletController::getParameterCount()
 	{
-		return 0;
+		return 1;
 	}
 
 	tresult PLUGIN_API WaveletController::getParameterInfo(int32 paramIndex, ParameterInfo& info /*out*/)
@@ -147,20 +146,27 @@ namespace io::atome::wavelet {
 			componentHandler_->addRef();
 		}
 
+		//TODO: just for testing within this thread.
+		if (componentHandler_ != nullptr) {
+			componentHandler_->beginEdit(kFrequencyId);
+			componentHandler_->performEdit(kFrequencyId, .0);
+			componentHandler_->endEdit(kFrequencyId);
+		}
+
 		return kResultTrue;
 	}
 
 	IPlugView* PLUGIN_API WaveletController::createView(FIDString name)
 	{
-		view_ = new View(frequencyParameter_);
+		view_ = new WaveletView(frequencyParameter_);
 		return view_;
 	}
 
-	void PLUGIN_API WaveletController::update(FUnknown* changedUnknown, int32 message) {
-		if (changedUnknown == frequencyParameter_ && componentHandler_ != nullptr) {
-			componentHandler_->beginEdit(frequencyParameter_->getInfo().id);
-			componentHandler_->performEdit(frequencyParameter_->getInfo().id, frequencyParameter_->getNormalized());
-			componentHandler_->endEdit(frequencyParameter_->getInfo().id);
+	void WaveletController::parameterValueChanged(Steinberg::int32 parameterId, Steinberg::Vst::ParamValue normalizedValue) {
+		if (parameterId == kFrequencyId && componentHandler_ != nullptr) {
+			componentHandler_->beginEdit(kFrequencyId);
+			componentHandler_->performEdit(kFrequencyId, frequencyParameter_->getNormalized());
+			componentHandler_->endEdit(kFrequencyId);
 		}
 	}
 } // namespace

@@ -278,22 +278,23 @@ endlocal</Command>
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Controller.cpp" />
+    <ClCompile Include="WaveletController.cpp" />
     <ClCompile Include="Application.cpp" />
-    <ClCompile Include="frequencyParameter.cpp" />
-    <ClCompile Include="Processor.cpp" />
+    <ClCompile Include="FrequencyParameter.cpp" />
+    <ClCompile Include="WaveletProcessor.cpp" />
     <ClCompile Include="PluginFactory.cpp" />
-    <ClCompile Include="View.cpp" />
-    <ClCompile Include="Wavelet.cpp" />
+    <ClCompile Include="WaveletView.cpp" />
+    <ClCompile Include="EveView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Constants.h" />
-    <ClInclude Include="Controller.h" />
-    <ClInclude Include="frequencyParameter.h" />
-    <ClInclude Include="Processor.h" />
-    <ClInclude Include="View.h" />
-    <ClInclude Include="Wavelet.h" />
+    <ClInclude Include="WaveletController.h" />
+    <ClInclude Include="FrequencyParameter.h" />
+    <ClInclude Include="IParameterListener.h" />
+    <ClInclude Include="WaveletProcessor.h" />
+    <ClInclude Include="WaveletView.h" />
+    <ClInclude Include="EveView.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\desktop.ini" />

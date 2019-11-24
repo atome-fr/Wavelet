@@ -1,5 +1,5 @@
 #include "Application.h"
-#include "Wavelet.h"
+#include "EveView.h"
 
 #include <windows.h>
 
@@ -22,14 +22,13 @@
 
 #include <sstream>
 
-
 using namespace std;
 using namespace Urho3D;
 
 extern "C" LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace io::atome::wavelet {
-	Wavelet::Wavelet(SharedPtr<Context> context, void* parent, int width, int height, FrequencyParameter* frequencyParameter) :
+	EveView::EveView(SharedPtr<Context> context, void* parent, int width, int height, FrequencyParameter* frequencyParameter) :
 		Object(context),
 		engine_(nullptr),
 		logoSprite_(nullptr),
@@ -78,12 +77,12 @@ namespace io::atome::wavelet {
 		button->SetStyleAuto();
 		button->SetFixedWidth(width);
 		button->SetFixedHeight(20);
-		SubscribeToEvent(button, E_RELEASED, URHO3D_HANDLER(Wavelet, HandleButton));
+		SubscribeToEvent(button, E_RELEASED, URHO3D_HANDLER(EveView, HandleButton));
 
 		Text* buttonText = button->CreateChild<Text>();
 		buttonText->SetFont(font, 12);
 		buttonText->SetAlignment(HA_CENTER, VA_CENTER);
-		buttonText->SetText("Hello Wavelet!");
+		buttonText->SetText("Hello EveView!");
 
 		Slider* slider = ui->GetRoot()->CreateChild<Slider>();
 		slider->SetPosition(0, 30);
@@ -93,7 +92,7 @@ namespace io::atome::wavelet {
 		slider->SetRange(1.0f);
 		Steinberg::Vst::ParamValue frequencyValue = frequencyParameter_->getNormalized();
 		slider->SetValue(frequencyValue);
-		SubscribeToEvent(slider, E_SLIDERCHANGED, URHO3D_HANDLER(Wavelet, HandleFrequency));
+		SubscribeToEvent(slider, E_SLIDERCHANGED, URHO3D_HANDLER(EveView, HandleFrequency));
 
 		sliderValue_ = ui->GetRoot()->CreateChild<Text>();
 		sliderValue_->SetPosition(0, 50);
@@ -104,7 +103,7 @@ namespace io::atome::wavelet {
 		updateSliderText();
 	}
 
-	Wavelet::~Wavelet()
+	EveView::~EveView()
 	{
 		if (engine_ != nullptr) {
 			if (!engine_->IsExiting()) {
@@ -118,17 +117,17 @@ namespace io::atome::wavelet {
 		}
 	}
 
-	void Wavelet::RunFrame()
+	void EveView::RunFrame()
 	{
 		engine_->RunFrame();
 	}
 
-	void Wavelet::HandleButton(StringHash eventType, VariantMap& eventData)
+	void EveView::HandleButton(StringHash eventType, VariantMap& eventData)
 	{
 		CreateLogo();
 	}
 
-	void Wavelet::HandleFrequency(StringHash eventType, VariantMap& eventData)
+	void EveView::HandleFrequency(StringHash eventType, VariantMap& eventData)
 	{
 		float newFrequency = eventData[SliderChanged::P_VALUE].GetFloat();
 		frequencyParameter_->setNormalized(newFrequency);
@@ -136,7 +135,7 @@ namespace io::atome::wavelet {
 		updateSliderText();
 	}
 
-	void Wavelet::updateSliderText()
+	void EveView::updateSliderText()
 	{
 		wchar_t buffer[256] = {};
 		Steinberg::Vst::ParamValue frequencyValue = frequencyParameter_->getNormalized();
@@ -144,7 +143,7 @@ namespace io::atome::wavelet {
 		sliderValue_->SetText(buffer);
 	}
 
-	void Wavelet::CreateLogo()
+	void EveView::CreateLogo()
 	{
 		ResourceCache* cache = GetSubsystem<ResourceCache>();
 		Texture2D* logoTexture = cache->GetResource<Texture2D>("Textures/logo.png");
@@ -162,29 +161,29 @@ namespace io::atome::wavelet {
 		logoSprite_->SetVisible(true);
 	}
 
-	WaveletThread::WaveletThread(void* parent, int width, int height, FrequencyParameter* frequencyParameter) :
+	EveViewThread::EveViewThread(void* parent, int width, int height, FrequencyParameter* frequencyParameter) :
 		context_(new Urho3D::Context()),
-		wavelet_(new Wavelet(context_, parent, width, height, frequencyParameter))
+		eveView_(new EveView(context_, parent, width, height, frequencyParameter))
 	{
 	}
 
-	WaveletThread::~WaveletThread()
+	EveViewThread::~EveViewThread()
 	{
-		if (wavelet_ != nullptr) {
-			wavelet_ = nullptr;
+		if (eveView_ != nullptr) {
+			eveView_ = nullptr;
 		}
 		if (context_ != nullptr) {
 			context_ = nullptr;
 		}
 	}
 
-	void WaveletThread::ThreadFunction()
+	void EveViewThread::ThreadFunction()
 	{
 		SetMainThread();
 
 		while(shouldRun_)
 		{
-			wavelet_->RunFrame();
+			eveView_->RunFrame();
 
 			//TODO: Do it the right way...
 			Sleep(10);

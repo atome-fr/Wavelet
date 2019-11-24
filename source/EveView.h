@@ -8,13 +8,13 @@
 #include "FrequencyParameter.h"
 
 namespace io::atome::wavelet {
-	class Wavelet : public Urho3D::Object
+	class EveView : public Urho3D::Object
 	{
-		URHO3D_OBJECT(Wavelet, Urho3D::Object);
+		URHO3D_OBJECT(EveView, Urho3D::Object);
 
 	public:
-		Wavelet(Urho3D::SharedPtr<Urho3D::Context> context, void* parent, int width, int height, FrequencyParameter* frequencyParameter);
-		~Wavelet();
+		EveView(Urho3D::SharedPtr<Urho3D::Context> context, void* parent, int width, int height, FrequencyParameter* frequencyParameter);
+		~EveView();
 
 		virtual void RunFrame();
 
@@ -33,16 +33,16 @@ namespace io::atome::wavelet {
 		Urho3D::SharedPtr<Urho3D::Sprite> logoSprite_;
 	};
 
-	class WaveletThread : public Urho3D::Thread
+	class EveViewThread : public Urho3D::Thread
 	{
 	public:
-		WaveletThread(void* parent, int width, int height, FrequencyParameter* frequencyParameter);
-		~WaveletThread() override;
+		EveViewThread(void* parent, int width, int height, FrequencyParameter* frequencyParameter);
+		~EveViewThread() override;
 
 	private:
 		void ThreadFunction();
 
 		Urho3D::SharedPtr<Urho3D::Context> context_;
-		Urho3D::SharedPtr<Wavelet> wavelet_;
+		Urho3D::SharedPtr<EveView> eveView_;
 	};
 } // namespace

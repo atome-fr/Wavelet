@@ -4,15 +4,15 @@
 
 #include "pluginterfaces\gui\iplugview.h"
 
-#include "Wavelet.h"
+#include "EveView.h"
 
 namespace io::atome::wavelet {
-	class View : public Steinberg::IPlugView
+	class WaveletView : public Steinberg::IPlugView
 	{
 
 	public:
-		View(FrequencyParameter* frequencyParameter);
-		~View();
+		WaveletView(FrequencyParameter* frequencyParameter);
+		~WaveletView();
 
 		Steinberg::tresult PLUGIN_API queryInterface(const Steinberg::TUID _iid, void** obj) SMTG_OVERRIDE;
 		virtual Steinberg::uint32 PLUGIN_API addRef() SMTG_OVERRIDE;
@@ -33,7 +33,7 @@ namespace io::atome::wavelet {
 	private:
 		Steinberg::uint32 nbRef_;
 		Steinberg::IPlugFrame* frame_;
-		WaveletThread* waveletThread_;
+		EveViewThread* eveViewThread_;
 		FrequencyParameter* frequencyParameter_;
 
 		int width_;

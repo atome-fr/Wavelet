@@ -1,4 +1,4 @@
-#include "Processor.h"
+#include "WaveletProcessor.h"
 #include "Application.h"
 #include "Constants.h"
 
@@ -96,7 +96,6 @@ namespace io::atome::wavelet {
 				IParamValueQueue* paramValueQueue = inputParameterChanges->getParameterData(index);
 				if (paramValueQueue)
 				{
-					MessageBox(NULL, L"Parameter value changed", L"New value", MB_OK);
 					ParamValue paramValue;
 					int32 sampleOffset;
 					int32 pointsCount = paramValueQueue->getPointCount();
@@ -105,10 +104,6 @@ namespace io::atome::wavelet {
 					case kFrequencyId:
 						if (paramValueQueue->getPoint(pointsCount - 1, sampleOffset, paramValue) == kResultTrue) {
 							frequency_ = paramValue * 1000;
-
-							wchar_t buffer[256] = {};
-							swprintf(buffer, L"%f", paramValue);
-							MessageBox(NULL, buffer, L"New value", MB_OK);
 						}
 						break;
 					}
@@ -121,15 +116,12 @@ namespace io::atome::wavelet {
 		// Stereo, so loop on 2 channels.
 		for (int32 i = 0; i < 2; i++)
 		{
-			float phase = 0;
-
 			SampleType* ptrOutputSample = outputSamples[i];
 
 			for (int j = 0; j < numSamples; ++j)
 			{
-				(*ptrOutputSample++) = 32760 * sin((2.f * float(M_PI) * frequency_) / sampleRate_ * j);
+				(*ptrOutputSample++) = 32760 * sin(((2. * M_PI * frequency_) / sampleRate_) * j);
 			}
-			while (phase > M_PI) phase -= 2 * M_PI;
 		}
 
 		return kResultOk;
