@@ -6,6 +6,8 @@
 #include "pluginterfaces/vst/ivstparameterchanges.h"
 #include "pluginterfaces/vst/ivstevents.h"
 
+#include <q/support/literals.hpp>
+
 #include <stdio.h>
 #include <algorithm>
 
@@ -16,6 +18,8 @@
 
 using namespace Steinberg;
 using namespace Steinberg::Vst;
+using namespace cycfi;
+using namespace cycfi::q::literals;
 
 namespace io::atome::wavelet {
 	FUnknown* WaveletProcessor::createInstance(void* context)
@@ -24,7 +28,10 @@ namespace io::atome::wavelet {
 	}
 
 	//FIXME: Get sample rate from DAW.
-	WaveletProcessor::WaveletProcessor() : sampleRate_(22050), frequency_(440.f)
+	WaveletProcessor::WaveletProcessor() :
+		sampleRate_(22050),
+		frequency_(440.f),
+		phase_(frequency_, sampleRate_)
 	{
 		setControllerClass(io::atome::wavelet::ControllerUID);
 	}
@@ -102,6 +109,7 @@ namespace io::atome::wavelet {
 					case kFrequencyId:
 						if (paramValueQueue->getPoint(pointsCount - 1, sampleOffset, paramValue) == kResultTrue) {
 							frequency_ = paramValue * 1000;
+							phase_.set(frequency_, sampleRate_);
 						}
 						break;
 					}
@@ -111,15 +119,11 @@ namespace io::atome::wavelet {
 
 		SampleType** outputSamples = getBuffer<SampleType>(output);
 
-		// Stereo, so loop on 2 channels.
-		for (int32 i = 0; i < 2; i++)
+		auto left = outputSamples[0];
+		auto right = outputSamples[1];
+		for (int frame = 0; frame < numSamples; ++frame)
 		{
-			SampleType* ptrOutputSample = outputSamples[i];
-
-			for (int j = 0; j < numSamples; ++j)
-			{
-				(*ptrOutputSample++) = 32760 * sin(((2. * M_PI * frequency_) / sampleRate_) * j);
-			}
+			right[frame] = left[frame] = q::sin(phase_++);
 		}
 
 		return kResultOk;

@@ -106,7 +106,7 @@
       <PreprocessorDefinitions>WIN32;_WINDOWS;DEVELOPMENT=1;SMTG_RENAME_ASSERT=1;VSTGUI_LIVE_EDITING=1;_UNICODE;CMAKE_INTDIR="Debug";wavelet_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <AdditionalIncludeDirectories>$(SolutionDir)..\Urho3D-1.7.1-Build\include\;$(SolutionDir)..\Urho3D-1.7.1-Build\include\Urho3D\ThirdParty;$(SolutionDir)..\VST_SDK\VST3_SDK;$(SolutionDir)..\VST_SDK\VST3_SDK\vstgui4</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)..\Urho3D-1.7.1-Build\include\;$(SolutionDir)..\Urho3D-1.7.1-Build\include\Urho3D\ThirdParty;$(SolutionDir)..\VST_SDK\VST3_SDK;$(SolutionDir)..\VST_SDK\VST3_SDK\vstgui4;$(SolutionDir)..\q_lib\include;$(SolutionDir)..\q_io\include;$(SolutionDir)..\infra\include</AdditionalIncludeDirectories>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <CompileAs>CompileAsCpp</CompileAs>
       <FloatingPointModel>Fast</FloatingPointModel>

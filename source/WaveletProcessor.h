@@ -2,6 +2,8 @@
 
 #include "public.sdk/source/vst/vstaudioeffect.h"
 
+#include <q/synth/sin.hpp>
+
 namespace io::atome::wavelet {
 	class WaveletProcessor : public Steinberg::Vst::AudioEffect
 	{
@@ -29,5 +31,7 @@ namespace io::atome::wavelet {
 
 		unsigned int sampleRate_;
 		float frequency_;
+
+		cycfi::q::phase_iterator phase_;
 	};
 } // namespace
