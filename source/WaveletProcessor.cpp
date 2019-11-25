@@ -34,9 +34,7 @@ namespace io::atome::wavelet {
 		tresult result = AudioEffect::initialize(context);
 		if (result == kResultTrue)
 		{
-			//addAudioInput(STR16("Stereo Input"), SpeakerArr::kStereo);
 			addAudioOutput(STR16("Audio Output"), SpeakerArr::kStereo);
-			//addEventInput(STR16("Event Input"), 1);
 		}
 		return result;
 	}

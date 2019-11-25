@@ -16,6 +16,7 @@ namespace io::atome::wavelet {
 		componentHandler_(nullptr),
 		frequencyParameter_(new FrequencyParameter(ParameterInfo::kCanAutomate, kFrequencyId))
 	{
+		//Notify this controller when parameter change. By design, we want the controller to communicate with VST host. Not the view or any parameter.
 		frequencyParameter_->setListener(this);
 	}
 
@@ -62,25 +63,22 @@ namespace io::atome::wavelet {
 
 	tresult PLUGIN_API WaveletController::setComponentState(IBStream* state)
 	{
-		//return kNotImplemented;
-		return kResultOk;
+		return kNotImplemented;
 	}
 
 	tresult PLUGIN_API WaveletController::setState(IBStream* state)
 	{
-		//return kNotImplemented;
-		return kResultOk;
+		return kNotImplemented;
 	}
 
 	tresult PLUGIN_API WaveletController::getState(IBStream* state)
 	{
-		//return kNotImplemented;
-		return kResultOk;
+		return kNotImplemented;
 	}
 
 	int32 PLUGIN_API WaveletController::getParameterCount()
 	{
-		return 1;
+		return parameters_.getParameterCount();
 	}
 
 	tresult PLUGIN_API WaveletController::getParameterInfo(int32 paramIndex, ParameterInfo& info /*out*/)

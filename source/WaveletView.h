@@ -1,7 +1,5 @@
 #pragma once
 
-#include <Windows.h>
-
 #include "pluginterfaces\gui\iplugview.h"
 
 #include "EveView.h"

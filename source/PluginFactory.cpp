@@ -1,5 +1,5 @@
-#include "Processor.h"
-#include "Controller.h"
+#include "WaveletProcessor.h"
+#include "WaveletController.h"
 #include "Constants.h"
 
 #include "public.sdk/source/main/pluginfactory.h"

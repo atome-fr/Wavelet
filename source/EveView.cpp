@@ -20,9 +20,6 @@
 
 #include <SDL/SDL.h>
 
-#include <sstream>
-
-using namespace std;
 using namespace Urho3D;
 
 extern "C" LRESULT CALLBACK WIN_WindowProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -145,20 +142,22 @@ namespace io::atome::wavelet {
 
 	void EveView::CreateLogo()
 	{
-		ResourceCache* cache = GetSubsystem<ResourceCache>();
-		Texture2D* logoTexture = cache->GetResource<Texture2D>("Textures/logo.png");
+		if (logoSprite_ == nullptr) {
+			ResourceCache* cache = GetSubsystem<ResourceCache>();
+			Texture2D* logoTexture = cache->GetResource<Texture2D>("Textures/logo.png");
 
-		UI* ui = GetSubsystem<UI>();
-		logoSprite_ = ui->GetRoot()->CreateChild<Sprite>();
+			UI* ui = GetSubsystem<UI>();
+			logoSprite_ = ui->GetRoot()->CreateChild<Sprite>();
 
-		logoSprite_->SetTexture(logoTexture);
+			logoSprite_->SetTexture(logoTexture);
 
-		int textureWidth = logoTexture->GetWidth();
-		int textureHeight = logoTexture->GetHeight();
+			int textureWidth = logoTexture->GetWidth();
+			int textureHeight = logoTexture->GetHeight();
 
-		logoSprite_->SetSize(460, 400);
+			logoSprite_->SetSize(460, 400);
 
-		logoSprite_->SetVisible(true);
+			logoSprite_->SetVisible(true);
+		}
 	}
 
 	EveViewThread::EveViewThread(void* parent, int width, int height, FrequencyParameter* frequencyParameter) :

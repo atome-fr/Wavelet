@@ -1,5 +1,7 @@
 #include "Application.h"
 
+#include <Windows.h>
+
 extern "C" {
 	bool InitDll()
 	{

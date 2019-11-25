@@ -9,6 +9,6 @@
 #define COMPANY_EMAIL "contact@atome.io"
 
 namespace io::atome::wavelet {
-	static const Steinberg::FUID ProcessorUID(0x1E4DC62B, 0x974147D6, 0x9CAB1B86, 0x50D4B11D);
-	static const Steinberg::FUID ControllerUID(0xA8D238C1, 0x97F54908, 0xB32EB808, 0x3EA43CED);
+	static const Steinberg::FUID ProcessorUID(0xbc00f531, 0x19a89841, 0x612dcc8c, 0x45bbceed);
+	static const Steinberg::FUID ControllerUID(0x2afcd1cb, 0x6defd15e, 0x239a1b9e, 0x86959eaf);
 } // namespace
