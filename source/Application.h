@@ -7,5 +7,6 @@ extern std::string contentPath;
 
 enum
 {
-	kFrequencyId = 0
+	kFrequencyId = 0,
+	kBypassId
 };

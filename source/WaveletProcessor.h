@@ -1,8 +1,11 @@
 #pragma once
 
 #include "public.sdk/source/vst/vstaudioeffect.h"
+#include "pluginterfaces/vst/ivstevents.h"
 
 #include <q/synth/sin.hpp>
+
+#include <map>
 
 namespace io::atome::wavelet {
 	class WaveletProcessor : public Steinberg::Vst::AudioEffect
@@ -23,15 +26,21 @@ namespace io::atome::wavelet {
 		Steinberg::tresult PLUGIN_API process(Steinberg::Vst::ProcessData& data) SMTG_OVERRIDE;
 
 	private:
-		template<typename SampleType> Steinberg::tresult processGeneric(Steinberg::Vst::AudioBusBuffers& output, Steinberg::int32 numSamples, Steinberg::Vst::IParameterChanges* inputParameterChanges);
+		template<typename SampleType> Steinberg::tresult processSamples(Steinberg::Vst::AudioBusBuffers& output, Steinberg::int32 numSamples);
 
 		template<typename SampleType> SampleType** getBuffer(Steinberg::Vst::AudioBusBuffers& buffer);
 		template<> Steinberg::Vst::Sample32** getBuffer(Steinberg::Vst::AudioBusBuffers& buffer);
 		template<> Steinberg::Vst::Sample64** getBuffer(Steinberg::Vst::AudioBusBuffers& buffer);
 
-		unsigned int sampleRate_;
+		void processParameterChanges(Steinberg::Vst::IParameterChanges* inputParameterChanges);
+		void processEvents(Steinberg::Vst::IEventList* events);
+
 		float frequency_;
+		bool bypass_;
+
+		std::map<Steinberg::int32, Steinberg::Vst::NoteOnEvent> notes_;
 
 		cycfi::q::phase_iterator phase_;
+
 	};
 } // namespace

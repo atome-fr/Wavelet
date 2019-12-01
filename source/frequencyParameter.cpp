@@ -1,4 +1,5 @@
 #include "frequencyParameter.h"
+#include "Application.h"
 
 #include "pluginterfaces/base/ustring.h"
 
@@ -6,16 +7,16 @@ using namespace Steinberg;
 using namespace Steinberg::Vst;
 
 namespace io::atome::wavelet {
-	FrequencyParameter::FrequencyParameter(int32 flags, int32 id) : listener_(nullptr)
+	FrequencyParameter::FrequencyParameter() : listener_(nullptr)
 	{
-		info.id = id;
-		Steinberg::UString(info.title, USTRINGSIZE(info.title)).assign(USTRING("Frequency"));
-		Steinberg::UString(info.shortTitle, USTRINGSIZE(info.shortTitle)).assign(USTRING("Freq"));
-		Steinberg::UString(info.units, USTRINGSIZE(info.units)).assign(USTRING("Hz"));
+		info.id = kFrequencyId;
+		UString(info.title, USTRINGSIZE(info.title)).assign(USTRING("Frequency"));
+		UString(info.shortTitle, USTRINGSIZE(info.shortTitle)).assign(USTRING("Freq"));
+		UString(info.units, USTRINGSIZE(info.units)).assign(USTRING("Hz"));
 		info.stepCount = 0;
-		info.defaultNormalizedValue = .3f;
+		info.defaultNormalizedValue = .0f;
 		info.unitId = kRootUnitId;
-		info.flags = flags;
+		info.flags = ParameterInfo::kCanAutomate;
 	}
 	
 	bool FrequencyParameter::setNormalized(ParamValue v) {
@@ -33,12 +34,12 @@ namespace io::atome::wavelet {
 		char text[32];
 		sprintf(text, "%.4f", normValue);
 
-		Steinberg::UString(string, 128).fromAscii(text);
+		UString(string, 128).fromAscii(text);
 	}
 
 	bool FrequencyParameter::fromString(const TChar* string, ParamValue& normValue) const
 	{
-		Steinberg::UString wrapper((TChar*)string, 128);
+		UString wrapper((TChar*)string, 128);
 		wrapper.scanFloat(normValue);
 
 		return true;

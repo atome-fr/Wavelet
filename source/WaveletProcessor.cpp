@@ -27,11 +27,11 @@ namespace io::atome::wavelet {
 		return (IAudioProcessor*) new WaveletProcessor;
 	}
 
-	//FIXME: Get sample rate from DAW.
 	WaveletProcessor::WaveletProcessor() :
-		sampleRate_(22050),
 		frequency_(440.f),
-		phase_(frequency_, sampleRate_)
+		phase_(),
+		bypass_(false),
+		notes_()
 	{
 		setControllerClass(io::atome::wavelet::ControllerUID);
 	}
@@ -41,7 +41,8 @@ namespace io::atome::wavelet {
 		tresult result = AudioEffect::initialize(context);
 		if (result == kResultTrue)
 		{
-			addAudioOutput(STR16("Audio Output"), SpeakerArr::kStereo);
+			addEventInput(STR16("MIDI input"), 1);
+			addAudioOutput(STR16("Stereo output"), SpeakerArr::kStereo);
 		}
 		return result;
 	}
@@ -79,20 +80,51 @@ namespace io::atome::wavelet {
 	{
 		tresult result = kResultOk;
 
+		processParameterChanges(data.inputParameterChanges);
+		processEvents(data.inputEvents);
+
 		if (data.numSamples > 0) {
 			if (data.symbolicSampleSize == kSample32) {
-				result = processGeneric<Sample32>(data.outputs[0], data.numSamples, data.inputParameterChanges);
+				result = processSamples<Sample32>(data.outputs[0], data.numSamples);
 			}
 			else {
-				result = processGeneric<Sample64>(data.outputs[0], data.numSamples, data.inputParameterChanges);
+				result = processSamples<Sample64>(data.outputs[0], data.numSamples);
 			}
 		}
 
 		return result;
 	}
 
-	template<typename SampleType> tresult WaveletProcessor::processGeneric(AudioBusBuffers& output, int32 numSamples, IParameterChanges* inputParameterChanges)
+	template<typename SampleType> tresult WaveletProcessor::processSamples(AudioBusBuffers& output, int32 numSamples)
 	{
+		if (!bypass_) {
+			SampleType** outputSamples = getBuffer<SampleType>(output);
+
+			auto left = outputSamples[0];
+			auto right = outputSamples[1];
+
+			for (auto const& [noteId, NoteOnEvent] : notes_) {
+				for (int frame = 0; frame < numSamples; ++frame)
+				{
+					right[frame] = left[frame] = q::sin(phase_++);
+				}
+			}
+		}
+
+		return kResultOk;
+	}
+
+	template<> Sample32** WaveletProcessor::getBuffer(AudioBusBuffers& buffer)
+	{
+		return buffer.channelBuffers32;
+	}
+
+	template<> Sample64** WaveletProcessor::getBuffer(AudioBusBuffers& buffer)
+	{
+		return buffer.channelBuffers64;
+	}
+
+	void WaveletProcessor::processParameterChanges(IParameterChanges* inputParameterChanges) {
 		if (inputParameterChanges)
 		{
 			int32 parametersCount = inputParameterChanges->getParameterCount();
@@ -109,33 +141,47 @@ namespace io::atome::wavelet {
 					case kFrequencyId:
 						if (paramValueQueue->getPoint(pointsCount - 1, sampleOffset, paramValue) == kResultTrue) {
 							frequency_ = paramValue * 1000;
-							phase_.set(frequency_, sampleRate_);
+							phase_.set(frequency_, processSetup.sampleRate);
+						}
+						break;
+
+					case kBypassId:
+						if (paramValueQueue->getPoint(pointsCount - 1, sampleOffset, paramValue) == kResultTrue)
+						{
+							bypass_ = (paramValue > 0.5f);
 						}
 						break;
 					}
 				}
 			}
 		}
+	}
 
-		SampleType** outputSamples = getBuffer<SampleType>(output);
-
-		auto left = outputSamples[0];
-		auto right = outputSamples[1];
-		for (int frame = 0; frame < numSamples; ++frame)
+	void WaveletProcessor::processEvents(IEventList* events)
+	{
+		if (events)
 		{
-			right[frame] = left[frame] = q::sin(phase_++);
+			int32 eventCount = events->getEventCount();
+			for (int32 i = 0; i < eventCount; i++)
+			{
+				Event event;
+				events->getEvent(i, event);
+				switch (event.type)
+				{
+				case Event::kNoteOnEvent:
+				{
+					notes_[event.noteOn.noteId] = event.noteOn;
+					break;
+				}
+				case Event::kNoteOffEvent:
+				{
+					notes_.erase(event.noteOff.noteId);
+					break;
+				}
+				default:
+					continue;
+				}
+			}
 		}
-
-		return kResultOk;
-	}
-
-	template<> Sample32** WaveletProcessor::getBuffer(AudioBusBuffers& buffer)
-	{
-		return buffer.channelBuffers32;
-	}
-
-	template<> Sample64** WaveletProcessor::getBuffer(AudioBusBuffers& buffer)
-	{
-		return buffer.channelBuffers64;
 	}
 } // namespace

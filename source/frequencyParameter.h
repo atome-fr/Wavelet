@@ -8,7 +8,7 @@ namespace io::atome::wavelet {
 	class FrequencyParameter : public Steinberg::Vst::Parameter
 	{
 	public:
-		FrequencyParameter(Steinberg::int32 flags, Steinberg::int32 id);
+		FrequencyParameter();
 
 		bool setNormalized(Steinberg::Vst::ParamValue v);
 

@@ -14,7 +14,7 @@ namespace io::atome::wavelet {
 		nbRef_(0),
 		view_(nullptr),
 		componentHandler_(nullptr),
-		frequencyParameter_(new FrequencyParameter(ParameterInfo::kCanAutomate, kFrequencyId))
+		frequencyParameter_(new FrequencyParameter())
 	{
 		//Notify this controller when parameter change. By design, we want the controller to communicate with VST host. Not the view or any parameter.
 		frequencyParameter_->setListener(this);
@@ -51,6 +51,9 @@ namespace io::atome::wavelet {
 
 	tresult PLUGIN_API WaveletController::initialize(FUnknown* context)
 	{
+		parameters_.addParameter(USTRING("Bypass"), nullptr, 1, 0,
+			ParameterInfo::kCanAutomate | ParameterInfo::kIsBypass, kBypassId);
+
 		parameters_.addParameter(frequencyParameter_);
 
 		return kResultOk;
