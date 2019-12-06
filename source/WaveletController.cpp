@@ -1,10 +1,10 @@
+#include <pluginterfaces/base/ustring.h>
+#include <pluginterfaces/base/ibstream.h>
+#include <base/source/fstreamer.h>
+
 #include "WaveletController.h"
 #include "Application.h"
 #include "Constants.h"
-
-#include "pluginterfaces/base/ustring.h"
-#include "pluginterfaces/base/ibstream.h"
-#include "base/source/fstreamer.h"
 
 using namespace Steinberg;
 using namespace Steinberg::Vst;
@@ -51,6 +51,8 @@ namespace io::atome::wavelet {
 
 	tresult PLUGIN_API WaveletController::initialize(FUnknown* context)
 	{
+		ComponentBase::initialize(context);
+
 		parameters_.addParameter(USTRING("Bypass"), nullptr, 1, 0,
 			ParameterInfo::kCanAutomate | ParameterInfo::kIsBypass, kBypassId);
 
@@ -64,17 +66,17 @@ namespace io::atome::wavelet {
 		return kResultOk;
 	}
 
-	tresult PLUGIN_API WaveletController::setComponentState(IBStream* state)
+	tresult PLUGIN_API WaveletController::setComponentState(IBStream* /*state*/)
 	{
 		return kNotImplemented;
 	}
 
-	tresult PLUGIN_API WaveletController::setState(IBStream* state)
+	tresult PLUGIN_API WaveletController::setState(IBStream* /*state*/)
 	{
 		return kNotImplemented;
 	}
 
-	tresult PLUGIN_API WaveletController::getState(IBStream* state)
+	tresult PLUGIN_API WaveletController::getState(IBStream* /*state*/)
 	{
 		return kNotImplemented;
 	}
@@ -147,23 +149,17 @@ namespace io::atome::wavelet {
 			componentHandler_->addRef();
 		}
 
-		//TODO: just for testing within this thread.
-		if (componentHandler_ != nullptr) {
-			componentHandler_->beginEdit(kFrequencyId);
-			componentHandler_->performEdit(kFrequencyId, .0);
-			componentHandler_->endEdit(kFrequencyId);
-		}
-
 		return kResultTrue;
 	}
 
-	IPlugView* PLUGIN_API WaveletController::createView(FIDString name)
+	IPlugView* PLUGIN_API WaveletController::createView(FIDString /*name*/)
 	{
 		view_ = new WaveletView(frequencyParameter_);
+
 		return view_;
 	}
 
-	void WaveletController::parameterValueChanged(Steinberg::int32 parameterId, Steinberg::Vst::ParamValue normalizedValue) {
+	void WaveletController::parameterValueChanged(Steinberg::int32 parameterId, Steinberg::Vst::ParamValue /*normalizedValue*/) {
 		if (parameterId == kFrequencyId && componentHandler_ != nullptr) {
 			componentHandler_->beginEdit(kFrequencyId);
 			componentHandler_->performEdit(kFrequencyId, frequencyParameter_->getNormalized());

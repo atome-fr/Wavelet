@@ -1,7 +1,7 @@
+#include <pluginterfaces/base/ustring.h>
+
 #include "frequencyParameter.h"
 #include "Application.h"
-
-#include "pluginterfaces/base/ustring.h"
 
 using namespace Steinberg;
 using namespace Steinberg::Vst;

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "public.sdk/source/vst/vstaudioeffect.h"
-#include "pluginterfaces/vst/ivstevents.h"
+#include <public.sdk/source/vst/vstaudioeffect.h>
+#include <pluginterfaces/vst/ivstevents.h>
 
 #include <q/synth/sin.hpp>
 

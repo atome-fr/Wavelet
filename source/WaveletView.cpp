@@ -1,7 +1,7 @@
 #include "WaveletView.h"
 
-
 using namespace Steinberg;
+using namespace Steinberg::Vst;
 
 namespace io::atome::wavelet {
 	WaveletView::WaveletView(FrequencyParameter* frequencyParameter) :
@@ -26,7 +26,7 @@ namespace io::atome::wavelet {
 		}
 	}
 
-	tresult PLUGIN_API WaveletView::queryInterface(const TUID _iid, void** obj)
+	tresult PLUGIN_API WaveletView::queryInterface(const TUID /*_iid*/, void** obj)
 	{
 		if (::Steinberg::FUnknownPrivate::iidEqual(iid, WaveletView::iid)) {
 			addRef();
@@ -46,16 +46,17 @@ namespace io::atome::wavelet {
 		return --nbRef_;
 	}
 
+#include <windows.h>
 	tresult PLUGIN_API WaveletView::isPlatformTypeSupported(FIDString type)
 	{
-		if (type = kPlatformStringWin) {
+		if (strcmp(type, "HWND") == 0) {
 			return kResultTrue;
 		}
 
 		return kResultFalse;
 	}
 
-	tresult PLUGIN_API WaveletView::attached(void* parent, FIDString type)
+	tresult PLUGIN_API WaveletView::attached(void* parent, FIDString /*type*/)
 	{
 		eveViewThread_ = new EveViewThread(parent, width_, height_, frequencyParameter_);
 		eveViewThread_->Run();
@@ -77,17 +78,17 @@ namespace io::atome::wavelet {
 		return kResultTrue;
 	}
 
-	tresult PLUGIN_API WaveletView::onWheel(float distance)
+	tresult PLUGIN_API WaveletView::onWheel(float /*distance*/)
 	{
 		return kResultOk;
 	}
 
-	tresult PLUGIN_API WaveletView::onKeyDown(char16 key, int16 keyCode, int16 modifiers)
+	tresult PLUGIN_API WaveletView::onKeyDown(char16 /*key*/, int16 /*keyCode*/, int16 /*modifiers*/)
 	{
 		return kResultOk;
 	}
 
-	tresult PLUGIN_API WaveletView::onKeyUp(char16 key, int16 keyCode, int16 modifiers)
+	tresult PLUGIN_API WaveletView::onKeyUp(char16 /*key*/, int16 /*keyCode*/, int16 /*modifiers*/)
 	{
 		return kResultOk;
 	}
@@ -102,12 +103,12 @@ namespace io::atome::wavelet {
 		return kResultOk;
 	}
 
-	tresult PLUGIN_API WaveletView::onSize(ViewRect* newSize)
+	tresult PLUGIN_API WaveletView::onSize(ViewRect* /*newSize*/)
 	{
 		return kResultOk;
 	}
 
-	tresult PLUGIN_API WaveletView::onFocus(TBool state)
+	tresult PLUGIN_API WaveletView::onFocus(TBool /*state*/)
 	{
 		return kResultOk;
 	}
@@ -124,7 +125,7 @@ namespace io::atome::wavelet {
 		return kResultFalse;
 	}
 	
-	tresult PLUGIN_API WaveletView::checkSizeConstraint(ViewRect* rect)
+	tresult PLUGIN_API WaveletView::checkSizeConstraint(ViewRect* /*rect*/)
 	{
 		return kResultOk;
 	}

@@ -1,9 +1,9 @@
 #pragma once
 
-#include "public.sdk/source/vst/vsteditcontroller.h"
-#include "pluginterfaces/vst/ivstnoteexpression.h"
-#include "pluginterfaces/vst/vsttypes.h"
-#include "base/source/fobject.h"
+#include <public.sdk/source/vst/vsteditcontroller.h>
+#include <pluginterfaces/vst/ivstnoteexpression.h>
+#include <pluginterfaces/vst/vsttypes.h>
+#include <base/source/fobject.h>
 
 #include "WaveletView.h"
 #include "IParameterListener.h"
@@ -13,7 +13,7 @@ namespace io::atome::wavelet {
 	class WaveletController : public Steinberg::Vst::ComponentBase, public Steinberg::Vst::IEditController, public IParameterListener
 	{
 	public:
-		static FUnknown* createInstance(void* context)
+		static FUnknown* createInstance(void* /*context*/)
 		{
 			return (IEditController*) new WaveletController;
 		}
@@ -43,12 +43,12 @@ namespace io::atome::wavelet {
 
 		void parameterValueChanged(Steinberg::int32 parameterId, Steinberg::Vst::ParamValue normalizedValue) SMTG_OVERRIDE;
 
-		private:
-			Steinberg::uint32 nbRef_;
-			WaveletView* view_;
-			FrequencyParameter* frequencyParameter_;
-			Steinberg::Vst::IComponentHandler* componentHandler_;
+	private:
+		Steinberg::uint32 nbRef_;
+		WaveletView* view_;
+		FrequencyParameter* frequencyParameter_;
+		Steinberg::Vst::IComponentHandler* componentHandler_;
 
-			Steinberg::Vst::ParameterContainer parameters_;
+		Steinberg::Vst::ParameterContainer parameters_;
 	};
 } // namespace

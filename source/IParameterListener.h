@@ -1,6 +1,6 @@
 #pragma once
 
-#include "public.sdk/source/vst/vstparameters.h"
+#include <public.sdk/source/vst/vstparameters.h>
 
 class IParameterListener
 {

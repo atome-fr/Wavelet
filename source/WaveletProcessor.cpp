@@ -1,10 +1,7 @@
-#include "WaveletProcessor.h"
-#include "Application.h"
-#include "Constants.h"
-
-#include "pluginterfaces/base/ibstream.h"
-#include "pluginterfaces/vst/ivstparameterchanges.h"
-#include "pluginterfaces/vst/ivstevents.h"
+#include <pluginterfaces/base/ibstream.h>
+#include <pluginterfaces/vst/ivstparameterchanges.h>
+#include <pluginterfaces/vst/ivstevents.h>
+#include <base/source/fstreamer.h>
 
 #include <q/support/literals.hpp>
 
@@ -14,7 +11,9 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
-#include "base/source/fstreamer.h"
+#include "WaveletProcessor.h"
+#include "Application.h"
+#include "Constants.h"
 
 using namespace Steinberg;
 using namespace Steinberg::Vst;
@@ -22,7 +21,7 @@ using namespace cycfi;
 using namespace cycfi::q::literals;
 
 namespace io::atome::wavelet {
-	FUnknown* WaveletProcessor::createInstance(void* context)
+	FUnknown* WaveletProcessor::createInstance(void* /*context*/)
 	{
 		return (IAudioProcessor*) new WaveletProcessor;
 	}
@@ -66,12 +65,12 @@ namespace io::atome::wavelet {
 		return kResultFalse;
 	}
 
-	tresult PLUGIN_API WaveletProcessor::setState(IBStream* state)
+	tresult PLUGIN_API WaveletProcessor::setState(IBStream* /*state*/)
 	{
 		return kResultOk;
 	}
 
-	tresult PLUGIN_API WaveletProcessor::getState(IBStream* state)
+	tresult PLUGIN_API WaveletProcessor::getState(IBStream* /*state*/)
 	{
 		return kResultOk;
 	}

@@ -1,7 +1,6 @@
-#include "Application.h"
-#include "EveView.h"
-
 #include <windows.h>
+
+#include <pluginterfaces/vst/ivstevents.h>
 
 #include <Urho3D/Core/Context.h>
 #include <Urho3D/Engine/EngineDefs.h>
@@ -19,6 +18,9 @@
 #include <Urho3D/Input/Input.h>
 
 #include <SDL/SDL.h>
+
+#include "Application.h"
+#include "EveView.h"
 
 using namespace Urho3D;
 
@@ -69,20 +71,22 @@ namespace io::atome::wavelet {
 
 		Font* font = cache->GetResource<Font>("Fonts/sdf.ttf");
 
-		Button* button = ui->GetRoot()->CreateChild<Button>();
-		button->SetPosition(0, 10);
-		button->SetStyleAuto();
-		button->SetFixedWidth(width);
-		button->SetFixedHeight(20);
-		SubscribeToEvent(button, E_RELEASED, URHO3D_HANDLER(EveView, HandleButton));
+		CreateLogo();
 
-		Text* buttonText = button->CreateChild<Text>();
-		buttonText->SetFont(font, 12);
-		buttonText->SetAlignment(HA_CENTER, VA_CENTER);
-		buttonText->SetText("Hello EveView!");
+		for (int i = 0; i < 16; i++) {
+			Button* button = ui->GetRoot()->CreateChild<Button>();
+			button->SetPosition(i * 24, 10);
+			button->SetStyleAuto();
+			button->SetFixedWidth(20);
+			button->SetFixedHeight(100);
+
+			button->SetAttribute("frequency", (440.0f * pow(pow(2, 1.f / 12.f), i)));
+
+			SubscribeToEvent(button, E_PRESSED, URHO3D_HANDLER(EveView, HandleButton));
+		}
 
 		Slider* slider = ui->GetRoot()->CreateChild<Slider>();
-		slider->SetPosition(0, 30);
+		slider->SetPosition(0, 110);
 		slider->SetStyleAuto();
 		slider->SetFixedWidth(width);
 		slider->SetFixedHeight(20);
@@ -92,7 +96,7 @@ namespace io::atome::wavelet {
 		SubscribeToEvent(slider, E_SLIDERCHANGED, URHO3D_HANDLER(EveView, HandleFrequency));
 
 		sliderValue_ = ui->GetRoot()->CreateChild<Text>();
-		sliderValue_->SetPosition(0, 50);
+		sliderValue_->SetPosition(0, 200);
 		sliderValue_->SetStyleAuto();
 		sliderValue_->SetFixedWidth(width);
 		sliderValue_->SetFixedHeight(20);
@@ -119,12 +123,14 @@ namespace io::atome::wavelet {
 		engine_->RunFrame();
 	}
 
-	void EveView::HandleButton(StringHash eventType, VariantMap& eventData)
+	void EveView::HandleButton(StringHash /*eventType*/, VariantMap& eventData)
 	{
-		CreateLogo();
+		Variant newFrequency;
+		eventData.TryGetValue("frequency", newFrequency);
+		frequencyParameter_->setNormalized(newFrequency.GetFloat());
 	}
 
-	void EveView::HandleFrequency(StringHash eventType, VariantMap& eventData)
+	void EveView::HandleFrequency(StringHash /*eventType*/, VariantMap& eventData)
 	{
 		float newFrequency = eventData[SliderChanged::P_VALUE].GetFloat();
 		frequencyParameter_->setNormalized(newFrequency);
@@ -150,12 +156,8 @@ namespace io::atome::wavelet {
 			logoSprite_ = ui->GetRoot()->CreateChild<Sprite>();
 
 			logoSprite_->SetTexture(logoTexture);
-
-			int textureWidth = logoTexture->GetWidth();
-			int textureHeight = logoTexture->GetHeight();
-
-			logoSprite_->SetSize(460, 400);
-
+			logoSprite_->SetPosition(width_ - 115, height_ - 100);
+			logoSprite_->SetSize(115, 100);
 			logoSprite_->SetVisible(true);
 		}
 	}

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pluginterfaces/base/ftypes.h"
+#include <pluginterfaces/base/ftypes.h>
 
 #include "IParameterListener.h"
 

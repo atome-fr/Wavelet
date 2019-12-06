@@ -1,6 +1,6 @@
 #pragma once
 
-#include "pluginterfaces\gui\iplugview.h"
+#include <pluginterfaces\gui\iplugview.h>
 
 #include "EveView.h"
 
