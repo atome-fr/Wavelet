@@ -27,7 +27,7 @@ namespace io::atome::wavelet {
 	}
 
 	WaveletProcessor::WaveletProcessor() :
-		frequency_(440.f),
+		frequencyMultiplicator_(0.f),
 		phase_(),
 		bypass_(false),
 		notes_()
@@ -82,7 +82,7 @@ namespace io::atome::wavelet {
 		processParameterChanges(data.inputParameterChanges);
 		processEvents(data.inputEvents);
 
-		if (data.numSamples > 0) {
+		if (data.numOutputs > 0 && data.numSamples > 0) {
 			if (data.symbolicSampleSize == kSample32) {
 				result = processSamples<Sample32>(data.outputs[0], data.numSamples);
 			}
@@ -102,9 +102,13 @@ namespace io::atome::wavelet {
 			auto left = outputSamples[0];
 			auto right = outputSamples[1];
 
-			for (auto const& [noteId, NoteOnEvent] : notes_) {
-				for (int frame = 0; frame < numSamples; ++frame)
-				{
+
+			for (int frame = 0; frame < numSamples; ++frame) {
+				right[frame] = left[frame] = 0.f;
+
+				for (auto const& [noteId, NoteOnEvent] : notes_) {
+					float frequency = MIDI_NOTES_FREQUENCIES[NoteOnEvent.pitch] * (1.0f + frequencyMultiplicator_);
+					phase_.set(frequency, processSetup.sampleRate);
 					right[frame] = left[frame] = q::sin(phase_++);
 				}
 			}
@@ -139,8 +143,7 @@ namespace io::atome::wavelet {
 					{
 					case kFrequencyId:
 						if (paramValueQueue->getPoint(pointsCount - 1, sampleOffset, paramValue) == kResultTrue) {
-							frequency_ = paramValue * 1000;
-							phase_.set(frequency_, processSetup.sampleRate);
+							frequencyMultiplicator_ = paramValue;
 						}
 						break;
 

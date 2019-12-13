@@ -35,7 +35,7 @@ namespace io::atome::wavelet {
 		void processParameterChanges(Steinberg::Vst::IParameterChanges* inputParameterChanges);
 		void processEvents(Steinberg::Vst::IEventList* events);
 
-		float frequency_;
+		float frequencyMultiplicator_;
 		bool bypass_;
 
 		std::map<Steinberg::int32, Steinberg::Vst::NoteOnEvent> notes_;

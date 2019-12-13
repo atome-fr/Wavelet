@@ -19,7 +19,6 @@ namespace io::atome::wavelet {
 		virtual void RunFrame();
 
 	private:
-		void HandleButton(Urho3D::StringHash eventType, Urho3D::VariantMap& eventData);
 		void HandleFrequency(Urho3D::StringHash eventType, Urho3D::VariantMap& eventData);
 		void CreateLogo();
 		void updateSliderText();

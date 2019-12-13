@@ -73,18 +73,6 @@ namespace io::atome::wavelet {
 
 		CreateLogo();
 
-		for (int i = 0; i < 16; i++) {
-			Button* button = ui->GetRoot()->CreateChild<Button>();
-			button->SetPosition(i * 24, 10);
-			button->SetStyleAuto();
-			button->SetFixedWidth(20);
-			button->SetFixedHeight(100);
-
-			button->SetAttribute("frequency", (440.0f * pow(pow(2, 1.f / 12.f), i)));
-
-			SubscribeToEvent(button, E_PRESSED, URHO3D_HANDLER(EveView, HandleButton));
-		}
-
 		Slider* slider = ui->GetRoot()->CreateChild<Slider>();
 		slider->SetPosition(0, 110);
 		slider->SetStyleAuto();
@@ -121,13 +109,6 @@ namespace io::atome::wavelet {
 	void EveView::RunFrame()
 	{
 		engine_->RunFrame();
-	}
-
-	void EveView::HandleButton(StringHash /*eventType*/, VariantMap& eventData)
-	{
-		Variant newFrequency;
-		eventData.TryGetValue("frequency", newFrequency);
-		frequencyParameter_->setNormalized(newFrequency.GetFloat());
 	}
 
 	void EveView::HandleFrequency(StringHash /*eventType*/, VariantMap& eventData)
