@@ -18,6 +18,7 @@
 using namespace Steinberg;
 using namespace Steinberg::Vst;
 using namespace cycfi;
+using namespace cycfi::q;
 using namespace cycfi::q::literals;
 
 namespace io::atome::wavelet {
@@ -28,9 +29,10 @@ namespace io::atome::wavelet {
 
 	WaveletProcessor::WaveletProcessor() :
 		frequencyMultiplicator_(0.f),
-		phase_(),
+		phases_(),
 		bypass_(false),
-		notes_()
+		notes_(),
+		envelope_(nullptr)
 	{
 		setControllerClass(io::atome::wavelet::ControllerUID);
 	}
@@ -43,7 +45,16 @@ namespace io::atome::wavelet {
 			addEventInput(STR16("MIDI input"), 1);
 			addAudioOutput(STR16("Stereo output"), SpeakerArr::kStereo);
 		}
+
 		return result;
+	}
+
+	tresult PLUGIN_API WaveletProcessor::setupProcessing(ProcessSetup& setup) {
+		AudioEffect::setupProcessing(setup);
+
+		envelope_ = new envelope(processSetup.sampleRate);
+
+		return kResultOk;
 	}
 
 	tresult PLUGIN_API WaveletProcessor::setBusArrangements(SpeakerArrangement* inputs, int32 numIns, SpeakerArrangement* outputs, int32 numOuts)
@@ -99,19 +110,30 @@ namespace io::atome::wavelet {
 		if (!bypass_) {
 			SampleType** outputSamples = getBuffer<SampleType>(output);
 
-			auto left = outputSamples[0];
-			auto right = outputSamples[1];
+			SampleType* left = outputSamples[0];
+			SampleType* right = outputSamples[1];
 
+			memset(left, 0, numSamples * sizeof(SampleType));
+			memset(right, 0, numSamples * sizeof(SampleType));
+			
+			for (auto const& [noteId, NoteOnEvent] : notes_) {
+				float frequency = MIDI_NOTES_FREQUENCIES[NoteOnEvent.pitch] * (1.0f + frequencyMultiplicator_);
+				phase_.set(frequency, processSetup.sampleRate);
 
-			for (int frame = 0; frame < numSamples; ++frame) {
-				right[frame] = left[frame] = 0.f;
+				
 
-				for (auto const& [noteId, NoteOnEvent] : notes_) {
-					float frequency = MIDI_NOTES_FREQUENCIES[NoteOnEvent.pitch] * (1.0f + frequencyMultiplicator_);
-					phase_.set(frequency, processSetup.sampleRate);
-					right[frame] = left[frame] = q::sin(phase_++);
+				for (int frame = 0; frame < numSamples; ++frame) {
+					auto env_ = (*envelope_)();
+
+					float value = q::sin(phase_);
+
+					value = clip_(value * env_);
+
+					right[frame] = left[frame] = value;
+					phase_++;
 				}
 			}
+
 		}
 
 		return kResultOk;
@@ -173,11 +195,13 @@ namespace io::atome::wavelet {
 				case Event::kNoteOnEvent:
 				{
 					notes_[event.noteOn.noteId] = event.noteOn;
+					envelope_->trigger(event.noteOn.velocity);
 					break;
 				}
 				case Event::kNoteOffEvent:
 				{
 					notes_.erase(event.noteOff.noteId);
+					envelope_->release();
 					break;
 				}
 				default:
